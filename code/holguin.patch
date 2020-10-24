@@ -1,0 +1,277 @@
+diff --git a/Include/patchlevel.h b/Include/patchlevel.h
+index eeb23af976..bd39070a58 100644
+--- a/Include/patchlevel.h
++++ b/Include/patchlevel.h
+@@ -23,7 +23,7 @@
+ #define PY_RELEASE_SERIAL       1
+
+ /* Version as a string */
+-#define PY_VERSION              "3.10.0a1+"
++#define PY_VERSION              "4.00.0a1+"
+ /*--end constants--*/
+
+ /* Version as a single 4-byte hex number, e.g. 0x010502B2 == 1.5.2b2.
+diff --git a/Objects/clinic/listobject.c.h b/Objects/clinic/listobject.c.h
+index 01e31d76cf..e1ab2d7507 100644
+--- a/Objects/clinic/listobject.c.h
++++ b/Objects/clinic/listobject.c.h
+@@ -88,6 +88,70 @@ PyDoc_STRVAR(list_append__doc__,
+ #define LIST_APPEND_METHODDEF    \
+     {"append", (PyCFunction)list_append, METH_O, list_append__doc__},
+
++PyDoc_STRVAR(list_appendappend__doc__,
++"appendappend($self, object, /)\n"
++"--\n"
++"\n"
++"Append object to the end of the list, twice...doh!.");
++
++#define LIST_APPENDAPPEND_METHODDEF    \
++    {"appendappend", (PyCFunction)list_appendappend, METH_O, list_appendappend__doc__},
++
++PyDoc_STRVAR(list_dneppa__doc__,
++"dneppa($self, object, /)\n"
++"--\n"
++"\n"
++"Add a new value to the beginning of a list.");
++
++#define LIST_DNEPPA_METHODDEF    \
++    {"dneppa", (PyCFunction)list_dneppa, METH_O, list_dneppa__doc__},
++
++PyDoc_STRVAR(list_ask__doc__,
++"ask($self, object, /)\n"
++"--\n"
++"\n"
++"Ask a question to the list");
++
++#define LIST_ASK_METHODDEF    \
++    {"ask", (PyCFunction)list_ask, METH_O, list_ask__doc__},
++
++PyDoc_STRVAR(list_receta__doc__,
++"receta($self, object, /)\n"
++"--\n"
++"\n"
++"Ask the ingredients of a recipe");
++
++#define LIST_RECETA_METHODDEF    \
++    {"receta", (PyCFunction)list_receta, METH_O, list_receta__doc__},
++
++PyDoc_STRVAR(list_matrix__doc__,
++"matrix($self, /)\n"
++"--\n"
++"\n"
++"Enter to the matrix.");
++
++#define LIST_MATRIX_METHODDEF    \
++    {"matrix", (PyCFunction)list_matrix, METH_NOARGS, list_matrix__doc__},
++
++PyDoc_STRVAR(list_train__doc__,
++"train($self, /)\n"
++"--\n"
++"\n"
++"A train.");
++
++#define LIST_TRAIN_METHODDEF    \
++    {"train", (PyCFunction)list_train, METH_NOARGS, list_train__doc__},
++
++PyDoc_STRVAR(list_gracias__doc__,
++"gracias($self, /)\n"
++"--\n"
++"\n"
++"A gracias.");
++
++#define LIST_GRACIAS_METHODDEF    \
++    {"gracias", (PyCFunction)list_gracias, METH_NOARGS, list_gracias__doc__},
++
++
+ PyDoc_STRVAR(list_extend__doc__,
+ "extend($self, iterable, /)\n"
+ "--\n"
+diff --git a/Objects/listobject.c b/Objects/listobject.c
+index aac87ea1b6..17626c44be 100644
+--- a/Objects/listobject.c
++++ b/Objects/listobject.c
+@@ -840,6 +840,170 @@ list_append(PyListObject *self, PyObject *object)
+     return NULL;
+ }
+
++/*[clinic input]
++list.appendappend
++
++     object: object
++     /
++
++Append object to the end of the list, twice...doh!.
++[clinic start generated code]*/
++
++static PyObject *
++list_appendappend(PyListObject *self, PyObject *object)
++/*[clinic end generated code: output=7c096003a29c0eae input=43a3fe48a7066e91]*/
++{
++    if (app1(self, object) == 0 && app1(self, object) == 0)
++        Py_RETURN_NONE;
++    return NULL;
++}
++
++
++/*[clinic input]
++list.dneppa
++
++    index: Py_ssize_t
++    object: object
++    /
++
++Insert object before index.
++[clinic start generated code]*/
++
++static PyObject *
++list_dneppa(PyListObject *self, PyObject *object)
++{
++    if (ins1(self, 0, object) == 0)
++        Py_RETURN_NONE;
++    return NULL;
++}
++
++/*[clinic input]
++list.ask
++
++     object: object
++     /
++
++Ask the list a question.
++[clinic start generated code]*/
++
++static void slow_print(char *in)
++{
++    char *i;
++    for (i = in; *i != '\0'; i++) {
++        printf("%c", *i);
++        fflush(stdout);
++        if (*i == ',')
++            usleep(400000);
++        else
++            usleep(70000);
++    }
++    printf("\n");
++}
++
++static void fast_print(char *in)
++{
++    char *i;
++    for (i = in; *i != '\0'; i++) {
++        printf("%c", *i);
++        fflush(stdout);
++        if (*i == '*')
++            usleep(200000);
++        else
++            usleep(30000);
++    }
++    printf("\n");
++}
++
++static PyObject *
++list_matrix(PyListObject *self)
++{
++    system("cmatrix");
++    Py_RETURN_NONE;
++}
++
++static PyObject *
++list_train(PyListObject *self)
++{
++    system("sl");
++    Py_RETURN_NONE;
++}
++
++static PyObject *
++list_gracias(PyListObject *self)
++{
++    slow_print("De nada! y disfruten su 🍕!");
++    Py_RETURN_NONE;
++}
++
++static PyObject *
++list_ask(PyListObject *self, PyObject *object)
++/*[clinic end generated code: output=7c096003a29c0eae input=43a3fe48a7066e91]*/
++{
++    PyObject* str = PyUnicode_AsUTF8String(object);
++    const char *bytes = PyBytes_AsString(str);
++
++    if (!strcmp(bytes, "¿Cómo estás?"))
++    {
++        slow_print("Bien, no me quejo, con el lanzamiento de 3.9 estuve con estrés...pero bien");
++    }
++    else if (!strcmp(bytes, "¿Sabes cocinar?"))
++    {
++        slow_print("Claro!, puedes usar el método receta(str) para preguntarme sobre ingredientes");
++    }
++    else
++    {
++        slow_print("no entiendo...");
++    }
++
++    Py_XDECREF(str);
++
++
++    Py_RETURN_NONE;
++}
++
++
++static PyObject *
++list_receta(PyListObject *self, PyObject *object)
++{
++    PyObject* str = PyUnicode_AsUTF8String(object);
++    const char *bytes = PyBytes_AsString(str);
++
++    if (!strcmp(bytes, "ropa vieja"))
++    {
++        fast_print("Para la carne,\n");
++        fast_print("* Medio Kg de carne");
++        fast_print("* 2 hojas de laurel");
++        fast_print("* Pimienta negra y sal a gusto.");
++
++        fast_print("\n\nPara la salsa,\n");
++        fast_print("* 1 cebolla grande");
++        fast_print("* 1 pimiento");
++        fast_print("* 2 dientes de ajo");
++        fast_print("* 1/2 cucharadita de comino en polvo");
++        fast_print("* Orégano a gusto");
++        fast_print("* 1/2 taza de puré de tomate (o tomates frescos!)");
++        fast_print("(También vino tinto, a mi me gusta mucho, asi que quizás 1/2 taza");
++    }
++    else if (!strcmp(bytes, "pisco sour"))
++    {
++        fast_print("* 100 ml de Pisco");
++        fast_print("* 100 ml de jugo de Limón");
++        fast_print("* 50 gr de azúcar");
++        fast_print("* Hielo a gusto");
++        fast_print("(A mi me gusta ponerle un poco de amargo de angostura)");
++    }
++    else
++    {
++        slow_print("no entiendo...");
++    }
++
++    Py_XDECREF(str);
++
++
++    Py_RETURN_NONE;
++}
++
++
+ /*[clinic input]
+ list.extend
+
+@@ -2782,6 +2946,13 @@ static PyMethodDef list_methods[] = {
+     LIST_CLEAR_METHODDEF
+     LIST_COPY_METHODDEF
+     LIST_APPEND_METHODDEF
++    LIST_APPENDAPPEND_METHODDEF
++    LIST_DNEPPA_METHODDEF
++    LIST_MATRIX_METHODDEF
++    LIST_TRAIN_METHODDEF
++    LIST_ASK_METHODDEF
++    LIST_GRACIAS_METHODDEF
++    LIST_RECETA_METHODDEF
+     LIST_INSERT_METHODDEF
+     LIST_EXTEND_METHODDEF
+     LIST_POP_METHODDEF
