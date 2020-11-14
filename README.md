@@ -19,3 +19,7 @@ solo debes abrir el archivo `index.html` para poder visualizarlas.
 
 Si tienes preguntas respecto a las cosas extrañas que se muestran en esta charla
 puedes abrir un Issue con tu pregunta, o contactarme directamente. :snake:
+
+### Disfruten la Pizza!
+
+![pizza](pizza.gif)
