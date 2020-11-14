@@ -15,7 +15,7 @@ La primera modificación que quizás notaste, fue la broma de decir
 que era Python 4.0, para ello, solo modifiqué en el archivo
 `Include/patchlevel.h` el macro `PY_VERSION`:
 
-```
+```c
  /* Version as a string */
 -#define PY_VERSION              "3.10.0a1+"
 +#define PY_VERSION              "4.00.0a1+"
@@ -31,7 +31,7 @@ Por ejemplo podemos mirar el caso de `list.appendappend()`:
 
 En la cabecera:
 
-```
+```c
 PyDoc_STRVAR(list_appendappend__doc__,
 "appendappend($self, object, /)\n"
 "--\n"
@@ -44,7 +44,7 @@ PyDoc_STRVAR(list_appendappend__doc__,
 
 La implementación:
 
-```
+```c
 /*[clinic input]
 list.appendappend
 
@@ -68,7 +68,7 @@ list_appendappend(PyListObject *self, PyObject *object)
 y luego en la lista de métodos del objeto, agregamos la definición
 de la cabecera:
 
-```
+```c
 static PyMethodDef list_methods[] = {
     ...
     LIST_APPENDAPPEND_METHODDEF
